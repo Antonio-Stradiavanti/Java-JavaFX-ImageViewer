@@ -1,0 +1,12 @@
+.idea/
+dependency-reduced-pom.xml
+*.iml
+nbactions.xml
+installer/**
+!installer/imageViewer.iss
+!installer/imageViewer.ico
+nb-configuration.xml
+target/
+nbactions-uninst.xml
+*.sh
+imageViewer.svg

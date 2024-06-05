@@ -1,0 +1,8 @@
+imgscalr by Riyad Kalla
+https://github.com/rkalla/imgscalr
+---
+TwelveMonkeys ImageIO by Harald Kuhr
+https://github.com/haraldk/TwelveMonkeys
+---
+metadata-extractor by Drew Noakes
+https://github.com/drewnoakes/metadata-extractor
