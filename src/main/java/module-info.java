@@ -1,3 +1,5 @@
+// Объявление модуля, в объявлении модуля указывается имя модуля и отношение модуля с другими пакетами и модулями.
+// Дескриптор модуля -> Объявления модулей записываются в виде инструкций в файле исходного кода java с именем module-info.
 module ru.manannikov.imageViewer {
     requires java.prefs;
     requires javafx.fxml;
@@ -20,6 +22,8 @@ module ru.manannikov.imageViewer {
     requires imgscalr.lib;
     requires metadata.extractor;
 
-    opens ru.manannikov.imageViewer to javafx.fxml;
+    // Текущий модуль разрешает доступ во время выполнения к пакету ru.manannikov.imageViewer следующим модулям (to -> список модулей, для которых пакет является открытым):
+    opens ru.manannikov.imageViewer to javafx.fxml, javafx.base, javafx.graphics;
+    // Имя пакета задается относительно текущего модуля.
     exports ru.manannikov.imageViewer;
 }

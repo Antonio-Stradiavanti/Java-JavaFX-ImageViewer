@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2023 Antik Mozib. All rights reserved.
+ * 2024 написали Мананников А. О., Абрамов М. А.
  */
 
 package ru.manannikov.imageViewer;
@@ -54,14 +54,27 @@ import java.util.prefs.Preferences;
 import static ru.manannikov.imageViewer.Util.getDataFile;
 import static ru.manannikov.imageViewer.Util.getOSType;
 
-// Отвечает за обработку всех событий
+// Отвечает за обработку всех событий и включает все необходимые для обработки элементы управления, а файл mainWindow.fxml -> соотв. представление.
 public class MainWindowController implements Initializable {
+
+   /*
+     Контроллерами оперирует класс FXMLoader, он инициализирует с-ва, сс. на элементы упр. FXML файла, вызывает метод ~initialize~ и обработчики событий.
+      + Доступные FXMLoader с-ва и методы должны быть открытыми и иметь аннотацию ~@FXML~.
+
+     FXMLoader будет искать соотв. обработчик события представления, если значение атрибута ~onAction~ начинается с символа ~#~. Требования к обработчику события:
+        - Метод может иметь не более одного параметра, тип аргумента должен быть совместимым с типом события, которое он должен обрабатывать;
+
+        - Тип возвращаемого значения -> void;
+
+        - Метод должен быть доступен FXMLoader.
+   */
 
     private enum ViewStyle {
         FIT_TO_WINDOW, FIT_TO_DESKTOP, ORIGINAL, STRETCHED
     }
 
     public MainViewModel mainViewModel = new MainViewModel();
+
     private final Preferences preferences = Preferences.userNodeForPackage(this.getClass());
 
     private final double zoomStep = 0.1;
@@ -98,6 +111,27 @@ public class MainWindowController implements Initializable {
 
     // Structure: AnchorPane (+FullScreenGrid) > ScrollPane > AnchorPane (+SelRect) > StackPane > ImageView
 
+    // FXMLoader автоматически выполнит поиск доступных свойств контроллера. Если имя свойства совпадает с атрибутом fx:id (fx -> пространство имен в xml) элемента, то с-во авт. иниц. ссылкой на сериализованный из XML объект, контроллер может использовать эти ссылки, например, для привязки к модели.
+    // Здесь с-ва являются открытыми чтобы для них не писать геттеры и сеттеры.
+    @FXML
+    public Button buttonFirst;
+    @FXML
+    public Button buttonPrevious;
+    @FXML
+    public Button buttonNext;
+    @FXML
+    public Button buttonLast;
+    @FXML
+    public Button buttonZoomIn;
+    @FXML
+    public Button buttonZoomOut;
+    @FXML
+    public Button buttonResetZoom;
+    @FXML
+    public Button buttonRotateLeft;
+    @FXML
+    public Button buttonRotateRight;
+    // Старое
     @FXML
     public BorderPane borderPaneWindow;
     @FXML
@@ -139,10 +173,6 @@ public class MainWindowController implements Initializable {
     @FXML
     public Menu menuRecent;
     @FXML
-    public Button buttonPrevious;
-    @FXML
-    public Button buttonNext;
-    @FXML
     public ToggleButton tButtonFavorite;
     @FXML
     public ToggleButton tButtonPanMode;
@@ -161,7 +191,20 @@ public class MainWindowController implements Initializable {
 
     @FXML
     @Override
+    // У контроллера может быть доступный метод initialize, тип возвращаемого значения которого должен быть void. Загрузчик FXML вызовет этот метод сразу после того, как выполнит загрузку и сериализацию FXML документа.
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        buttonFirst.setDisable(true);
+        buttonPrevious.setDisable(true);
+        buttonNext.setDisable(true);
+        buttonLast.setDisable(true);
+        tButtonPanMode.setDisable(true);
+        buttonZoomIn.setDisable(true);
+        buttonZoomOut.setDisable(true);
+        buttonResetZoom.setDisable(true);
+        buttonRotateLeft.setDisable(true);
+        buttonRotateRight.setDisable(true);
+
         // initialize only UI control listeners in this method
 
         // reset control properties
@@ -173,6 +216,7 @@ public class MainWindowController implements Initializable {
         gridPaneQuickInfo.toFront();
         imageViewMain.setFitHeight(0);
         imageViewMain.setFitWidth(0);
+        // Связывает элемент пользовательского интерфейса & модель.
         labelStatus.textProperty().bind(mainViewModel.statusProperty());
 
         // MenuBar ToggleGroup
@@ -394,9 +438,7 @@ public class MainWindowController implements Initializable {
     @FXML
     public void anchorPaneMain_onMouseDrag(MouseEvent mouseEvent) {
         if (!selectionModeActive.get()) {
-            imageViewMain.setCursor(Cursor.MOVE);
-        } else {
-            imageViewMain.setCursor(Cursor.CROSSHAIR);
+            imageViewMain.setCursor(Cursor.CLOSED_HAND);
         }
 
         if (selectionStartedProperty.get()) {
@@ -707,36 +749,6 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
-    public void menuCheckForUpdates_onAction(ActionEvent actionEvent) {
-        AppUpdateService appUpdateService = new AppUpdateService(
-                "ImageViewer",
-                Util.getAppVersion().equals("") ? "0" : Util.getAppVersion());
-        appUpdateService.setOnSucceeded(event -> {
-            boolean updateAvailable = (boolean) event.getSource().getValue();
-
-            Alert alert;
-            if (updateAvailable) {
-                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Update");
-                alert.initOwner(imageViewMain.getScene().getWindow());
-                alert.setHeaderText("An update is available.");
-                alert.getDialogPane().setContentText("Would you like to download it now?");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    Util.browseUrl(appUpdateService.getUpdateUrl());
-                }
-            } else {
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Update");
-                alert.initOwner(imageViewMain.getScene().getWindow());
-                alert.setHeaderText("No updates are available.");
-                alert.showAndWait();
-            }
-        });
-        appUpdateService.start();
-    }
-
-    @FXML
     public void tButtonFavorite_onAction(ActionEvent actionEvent) {
         mainViewModel.setAsFavorite(mainViewModel.getSelectedImageModel(),
                 tButtonFavorite.isSelected());
@@ -989,6 +1001,18 @@ public class MainWindowController implements Initializable {
             preferences.put("OpenLocation", file.getParentFile().getPath());
             openImage(file.getPath());
         }
+
+        buttonFirst.setDisable(false);
+        buttonPrevious.setDisable(false);
+        buttonNext.setDisable(false);
+        buttonLast.setDisable(false);
+        tButtonPanMode.setDisable(false);
+        buttonZoomIn.setDisable(false);
+        buttonZoomOut.setDisable(false);
+        buttonResetZoom.setDisable(false);
+        buttonRotateLeft.setDisable(false);
+        buttonRotateRight.setDisable(false);
+
     }
 
     private void saveAs() {
@@ -1420,6 +1444,7 @@ public class MainWindowController implements Initializable {
     @FXML
     public void menuOpen_onAction(ActionEvent actionEvent) {
         open();
+
     }
 
     @FXML

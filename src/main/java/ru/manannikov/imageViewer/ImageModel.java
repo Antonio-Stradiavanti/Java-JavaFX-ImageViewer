@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2023 Antik Mozib. All rights reserved.
+ * 2024 написали Мананников А. О., Абрамов М. А.
  */
 
 package ru.manannikov.imageViewer;
@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 
+// Модель это некоторый Java Bean.
 public class ImageModel {
 
     private Image image = null;

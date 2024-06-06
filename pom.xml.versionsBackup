@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2021-2023 Antik Mozib. All rights reserved.
+  ~ 2024 написали Мананников А. О., Абрамов М. А.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -449,7 +449,7 @@
                                 <fileVersion>${project.version}.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>imageViewer</fileDescription>
-                                <copyright>Copyright © 2021-2023 Antik Mozib. All rights reserved.</copyright>
+                                <2024 написали Мананников А. О., Абрамов М. А.
                                 <productVersion>${project.version}.0</productVersion>
                                 <txtProductVersion>${project.version}</txtProductVersion>
                                 <productName>imageViewer</productName>

@@ -1,9 +1,33 @@
 /*
- * Copyright (C) 2021-2023 Antik Mozib. All rights reserved.
+ * 2024 написали Мананников А. О., Абрамов М. А.
  */
 
 .tooltip {
     -fx-font-size: 14;
+}
+
+.button, .toggle-button {
+    -fx-background-color: #FFD7E6;
+}
+
+.button:selected, 
+.button:hover, 
+.toggle-button:selected, 
+.toggle-button:hover, 
+.menu-bar > .container > .menu-button:hover, 
+.menu-bar > .container > .menu-button:focused, 
+.menu-bar > .container > .menu-button:showing, 
+.menu .menu-item:hovered,
+.menu .menu-item:focused {
+    -fx-background-color: #E58AAB;
+}
+
+.button:disabled {
+    -fx-background-color: #C7A9B4;
+}
+
+.parent {
+    -fx-background-color: #E3ECD9;
 }
 
 .no-border {

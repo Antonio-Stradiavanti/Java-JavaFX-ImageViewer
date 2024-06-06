@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright (C) 2021-2023 Antik Mozib. All rights reserved.
+  ~ 2024 написали Мананников А. О., Абрамов М. А.
   -->
 
 <?import javafx.geometry.Insets?>
@@ -354,7 +354,7 @@
                     <content>
                         <AnchorPane fx:id="anchorPaneMain" onMouseDragged="#anchorPaneMain_onMouseDrag" onMousePressed="#anchorPaneMain_onMousePress" onMouseReleased="#anchorPaneMain_onMouseRelease" styleClass="no-border">
                             <children>
-                                <StackPane style="-fx-background-color: #FFFFFF;" styleClass="no-border" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <StackPane style="-fx-background-color: FFFFFF;" styleClass="no-border" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
                                         <ImageView fx:id="imageViewMain" focusTraversable="true" onMouseExited="#imageViewMain_onMouseExit" onMouseMoved="#imageViewMain_onMouseMove" pickOnBounds="true" preserveRatio="true" />
                                     </children>
